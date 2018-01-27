@@ -1,0 +1,9 @@
+[package]
+name = "pt"
+version = "0.1.0"
+authors = ["Janis Pritzkau <janispritzkau@gmail.com>"]
+
+[dependencies]
+cgmath = "*"
+image = "*"
+rand = "*"
