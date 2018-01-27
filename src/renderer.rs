@@ -28,7 +28,7 @@ impl Renderer {
         if depth > self.max_depth || depth > self.min_depth && rng.next_f32() < 0.4 { return XYZ::black() }
 
         let (hit, material) = if let Some(x) = self.scene.intersect(ray) { x } else {
-            return XYZ::new(0.02, 0.023, 0.05) + XYZ::white() * 0.04 * (1.0 - ray.direction.dot(Vector3::unit_z()).max(0.0)).powf(3.0)
+            return XYZ::new(0.018, 0.021, 0.05) + XYZ::white() * 0.03 * (1.0 - ray.direction.dot(Vector3::unit_z()).max(0.0)).powi(2)
         };
 
         let mut color: XYZ = if let Some(color) = material.emission(&hit) { color } else { XYZ::black() };

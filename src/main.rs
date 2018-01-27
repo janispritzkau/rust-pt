@@ -16,7 +16,7 @@ fn main() {
             Point3::new(-2.0, -4.4, 3.4),
             Point3::new(-0.8, 0.2, 0.7),
             Vector3::unit_z()
-        ).invert().unwrap(), 800, 600).fov(60.0).dof(4.5, 0.06)
+        ).invert().unwrap(), 600, 400).fov(60.0).dof(5.0, 0.08)
     );
 
     scene.add(Object::new(
@@ -42,10 +42,10 @@ fn main() {
     ));
 
     scene.add(Object::new(
-        Rc::new(Disk::new(2.5)),
-        Rc::new(Emission::new(Rc::new(XYZ::new(1.0, 0.9, 0.86) * 4.3)))
-    ).transform(Matrix4::from_angle_y(Deg(29.0)) * Matrix4::from_translation(Vector3::unit_z() * 4.2)));
+        Rc::new(Disk::new(2.2)),
+        Rc::new(Emission::new(Rc::new(XYZ::new(1.0, 0.9, 0.86) * 6.0)))
+    ).transform(Matrix4::from_angle_y(Deg(30.0)) * Matrix4::from_translation(Vector3::unit_z() * 4.2)));
 
-    Renderer::new(scene, 800, 600, 1000, 3, 12)
+    Renderer::new(scene, 600, 400, 200, 3, 12)
     .render_to_file("render.png").unwrap();
 }
