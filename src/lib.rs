@@ -5,7 +5,7 @@ extern crate image;
 extern crate rand;
 
 pub mod math {
-    pub use cgmath::{Vector2, Vector3, Point3, Matrix3, Matrix4,
+    pub use cgmath::{Vector2, Vector3, Point3, Matrix3, Matrix4, Deg,
         Transform, EuclideanSpace, ElementWise, InnerSpace, MetricSpace, SquareMatrix};
 }
 

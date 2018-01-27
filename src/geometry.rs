@@ -40,8 +40,8 @@ impl Geometry for Plane {
             if position.x.abs() > self.scale.x || position.y.abs() > self.scale.y { return None }
             Some(Intersection {
                 distance, position, normal: self.normal,
-                u: position.x / self.scale.x,
-                v: position.y / self.scale.y
+                u: 0.5 + position.x / self.scale.x * 1.0,
+                v: 0.5 + position.y / self.scale.y * 1.0
             })
         } else { None }
     }
@@ -58,8 +58,8 @@ impl Geometry for Disk {
             if position.distance2(Point3::origin()) > self.radius_sqr { return None }
             Some(
                 Intersection {distance, position, normal: self.normal,
-                u: position.x / self.radius,
-                v: position.y / self.radius
+                u: 0.5 + position.x / self.radius * 0.5,
+                v: 0.5 + position.y / self.radius * 0.5
             })
         } else { None }
     }

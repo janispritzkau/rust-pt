@@ -31,7 +31,7 @@ impl Camera {
     pub fn generate_ray(&self, raster_x: f32, raster_y: f32, rng: &mut XorShiftRng) -> Ray {
         let camera_dir = self.raster_to_camera.transform_point(
             Point3::new(raster_x, raster_y, -1.0)
-        ).to_vec().mul_element_wise(Vector3::new(self.scale, self.scale, 1.0));
+        ).to_vec().mul_element_wise(Vector3::new(self.scale, self.scale, 1.0)).normalize();
 
         let camera_pos = Point3::new(
             (rng.next_f32() - 0.5) * 2.0 * self.aperture_size,

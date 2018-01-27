@@ -25,17 +25,26 @@ impl Renderer {
     }
 
     fn radiance(&self, ray: &Ray, rng: &mut XorShiftRng, depth: usize) -> XYZ {
-        let (hit, _material) = if let Some(x) = self.scene.intersect(ray) { x } else {
-            return XYZ::black()
+        if depth > self.max_depth || depth > self.min_depth && rng.next_f32() < 0.4 { return XYZ::black() }
+
+        let (hit, material) = if let Some(x) = self.scene.intersect(ray) { x } else {
+            return XYZ::new(0.02, 0.023, 0.05) + XYZ::white() * 0.04 * (1.0 - ray.direction.dot(Vector3::unit_z()).max(0.0)).powf(3.0)
         };
 
-        let v = if ((hit.position.x.floor() + hit.position.y.floor()) % 2.0).abs() < 1.0 {
-            0.8
-        } else {
-            0.4
-        };
+        let mut color: XYZ = if let Some(color) = material.emission(&hit) { color } else { XYZ::black() };
 
-        XYZ::white() * hit.normal.dot(-ray.direction).max(0.0) * v
+        if color.luminance() == 0.0 {
+            let (ray, refl_color) = material.bsdf(&hit, ray, rng);
+            color = color + self.radiance(&ray, rng, depth + 1) * refl_color;
+        }
+        // let v = if ((hit.position.x.floor() + hit.position.y.floor()) % 2.0).abs() < 1.0 {
+        //     0.8
+        // } else {
+        //     0.4
+        // };
+
+        // XYZ::white() * hit.normal.dot(-ray.direction).max(0.0) * v
+        color
     }
 
     pub fn render_to_file<P: AsRef<Path>>(&self, path: P) -> io::Result<()> {
