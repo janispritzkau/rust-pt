@@ -57,7 +57,7 @@ impl Renderer {
 
             for y in 0..self.height { for x in 0..self.width {
                 let pixel = &mut buffer[y * self.width + x];
-                let ray = self.scene.camera.generate_ray(x as f32, y as f32);
+                let ray = self.scene.camera.generate_ray(x as f32 + rng.next_f32(), y as f32 + rng.next_f32(), &mut rng);
                 let color = self.radiance(&ray, &mut rng, 0);
                 *pixel = (*pixel * s as f32 + color) / (s as f32 + 1.0);
                 let c = pixel.to_srgb();

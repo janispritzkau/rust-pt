@@ -1,5 +1,6 @@
 use math::*;
 use ray::Ray;
+use rand::{XorShiftRng, Rng};
 
 pub struct Camera {
     camera_to_world: Matrix4<f32>, raster_to_camera: Matrix4<f32>,
@@ -27,13 +28,21 @@ impl Camera {
         self.aperture_size = size; self.focal_distance = distance; self
     }
 
-    pub fn generate_ray(&self, raster_x: f32, raster_y: f32) -> Ray {
+    pub fn generate_ray(&self, raster_x: f32, raster_y: f32, rng: &mut XorShiftRng) -> Ray {
         let camera_dir = self.raster_to_camera.transform_point(
             Point3::new(raster_x, raster_y, -1.0)
         ).to_vec().mul_element_wise(Vector3::new(self.scale, self.scale, 1.0));
+
+        let camera_pos = Point3::new(
+            (rng.next_f32() - 0.5) * 2.0 * self.aperture_size,
+            (rng.next_f32() - 0.5) * 2.0 * self.aperture_size,
+            0.0
+        );
+        let camera_dir = (camera_dir * self.focal_distance - camera_pos.to_vec()).normalize();
+
         Ray {
-            origin: self.camera_to_world.transform_point(Point3::new(0.0, 0.0, 0.0)),
-            direction: self.camera_to_world.transform_vector(camera_dir.normalize())
+            origin: self.camera_to_world.transform_point(camera_pos),
+            direction: self.camera_to_world.transform_vector(camera_dir)
         }
     }
 }

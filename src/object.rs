@@ -17,6 +17,10 @@ impl Object {
         }
     }
 
+    pub fn transform(mut self, transform: Matrix4<f32>) -> Self {
+        self.transform = transform; self.transform_inv = transform.invert().unwrap(); self
+    }
+
     pub fn intersect(&self, ray: &Ray) -> Option<(Intersection, Rc<Material>)> {
         if let Some(mut hit) = self.geometry.intersect(&Ray {
             origin: self.transform_inv.transform_point(ray.origin),
