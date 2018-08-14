@@ -44,8 +44,8 @@ fn random_hemisphere_direction(normal: Vector3<f32>, rng: &mut XorShiftRng) -> V
     let mut u = normal.cross(Vector3::unit_x());
     if u.magnitude2() == 0.0 { u = normal.cross(Vector3::unit_y()) }
     let v = normal.cross(u);
-    let phi = rng.next_f32() * PI * 2.0;
-    let theta = rng.next_f32().asin();
+    let phi = rng.gen::<f32>() * PI * 2.0;
+    let theta = rng.gen::<f32>().asin();
     u * phi.cos() * theta.cos() + v * phi.sin() * theta.cos() + normal * theta.sin()
 }
 
@@ -99,7 +99,7 @@ impl Material for Glass {
             ((etai * r2 - etat * r1) / (etai * r2 + etat * r1)).powi(2)
         ) / 2.0;
 
-        let ray = if f < rng.next_f32() { Ray {
+        let ray = if f < rng.gen::<f32>() { Ray {
             origin: hit.position + n * 0.0001,
             direction: refl
         } } else { Ray {

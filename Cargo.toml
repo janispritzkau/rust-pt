@@ -4,6 +4,6 @@ version = "0.1.0"
 authors = ["Janis Pritzkau <janispritzkau@gmail.com>"]
 
 [dependencies]
-cgmath = "*"
-image = "*"
-rand = "*"
+cgmath = "0.16"
+image = "0.19"
+rand = "0.5"

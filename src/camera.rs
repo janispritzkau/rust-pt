@@ -34,8 +34,8 @@ impl Camera {
         ).to_vec().mul_element_wise(Vector3::new(self.scale, self.scale, 1.0)).normalize();
 
         let camera_pos = Point3::new(
-            (rng.next_f32() - 0.5) * 2.0 * self.aperture_size,
-            (rng.next_f32() - 0.5) * 2.0 * self.aperture_size,
+            (rng.gen::<f32>() - 0.5) * 2.0 * self.aperture_size,
+            (rng.gen::<f32>() - 0.5) * 2.0 * self.aperture_size,
             0.0
         );
         let camera_dir = (camera_dir * self.focal_distance - camera_pos.to_vec()).normalize();

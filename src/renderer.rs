@@ -25,7 +25,7 @@ impl Renderer {
     }
 
     fn radiance(&self, ray: &Ray, rng: &mut XorShiftRng, depth: usize) -> XYZ {
-        if depth > self.max_depth || depth > self.min_depth && rng.next_f32() < 0.4 { return XYZ::black() }
+        if depth > self.max_depth || depth > self.min_depth && rng.gen::<f32>() < 0.4 { return XYZ::black() }
 
         let (hit, material) = if let Some(x) = self.scene.intersect(ray) { x } else {
             return XYZ::new(0.018, 0.021, 0.05) + XYZ::white() * 0.03 * (1.0 - ray.direction.dot(Vector3::unit_z()).max(0.0)).powi(2)
@@ -66,7 +66,7 @@ impl Renderer {
 
             for y in 0..self.height { for x in 0..self.width {
                 let pixel = &mut buffer[y * self.width + x];
-                let ray = self.scene.camera.generate_ray(x as f32 + rng.next_f32(), y as f32 + rng.next_f32(), &mut rng);
+                let ray = self.scene.camera.generate_ray(x as f32 + rng.gen::<f32>(), y as f32 + rng.gen::<f32>(), &mut rng);
                 let color = self.radiance(&ray, &mut rng, 0);
                 *pixel = (*pixel * s as f32 + color) / (s as f32 + 1.0);
                 let c = pixel.to_srgb();
