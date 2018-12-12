@@ -3,6 +3,7 @@
 extern crate cgmath;
 extern crate image;
 extern crate rand;
+extern crate rand_xorshift;
 
 pub mod math {
     pub use cgmath::{Vector2, Vector3, Point3, Matrix3, Matrix4, Deg,

@@ -2,7 +2,8 @@ use std::time::{Duration, Instant};
 use std::path::Path;
 use std::io;
 use image;
-use rand::{Rng, XorShiftRng};
+use rand::{SeedableRng, Rng};
+use rand_xorshift::XorShiftRng;
 
 use math::*;
 use ray::*;
@@ -37,13 +38,7 @@ impl Renderer {
             let (ray, refl_color) = material.bsdf(&hit, ray, rng);
             color = color + self.radiance(&ray, rng, depth + 1) * refl_color;
         }
-        // let v = if ((hit.position.x.floor() + hit.position.y.floor()) % 2.0).abs() < 1.0 {
-        //     0.8
-        // } else {
-        //     0.4
-        // };
 
-        // XYZ::white() * hit.normal.dot(-ray.direction).max(0.0) * v
         color
     }
 
@@ -51,7 +46,7 @@ impl Renderer {
         let mut image = image::RgbImage::new(self.width as u32, self.height as u32);
         let mut buffer = vec![XYZ::black(); self.width * self.height];
 
-        let mut rng = XorShiftRng::new_unseeded();
+        let mut rng = XorShiftRng::seed_from_u64(0);
         let start_time = Instant::now();
         let mut last_time = start_time;
 

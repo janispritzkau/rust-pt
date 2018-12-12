@@ -1,6 +1,7 @@
 use math::*;
 use ray::Ray;
-use rand::{XorShiftRng, Rng};
+use rand::Rng;
+use rand_xorshift::XorShiftRng;
 
 pub struct Camera {
     camera_to_world: Matrix4<f32>, raster_to_camera: Matrix4<f32>,

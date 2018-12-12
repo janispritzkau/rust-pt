@@ -1,7 +1,5 @@
 use std::ops::{Add, Sub, Div, Mul};
 
-use std::path::Path;
-
 #[derive(Copy, Clone)]
 pub struct XYZ {
     pub x: f32,

@@ -1,5 +1,6 @@
 use std::rc::Rc;
-use rand::{XorShiftRng, Rng};
+use rand::Rng;
+use rand_xorshift::XorShiftRng;
 use texture::Texture;
 use ray::*;
 use math::*;
@@ -7,23 +8,18 @@ use std::mem;
 use color::XYZ;
 use std::f32::consts::PI;
 
-enum MaterialSample {
-
-}
-
 pub trait Material {
     fn bsdf(&self, hit: &Intersection, ray: &Ray, rng: &mut XorShiftRng) -> (Ray, XYZ);
     fn emission(&self, hit: &Intersection) -> Option<XYZ>;
 }
 
 pub struct Diffuse {
-    color: Rc<Texture>,
-    roughness: Rc<Texture>
+    color: Rc<Texture>
 }
 
 impl Diffuse {
-    pub const fn new(color: Rc<Texture>, roughness: Rc<Texture>) -> Self {
-        Self { color, roughness }
+    pub const fn new(color: Rc<Texture>) -> Self {
+        Self { color }
     }
 }
 
